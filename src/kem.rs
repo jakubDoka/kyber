@@ -1,4 +1,3 @@
-use crate::rng::randombytes;
 use crate::{error::KyberError, indcpa::*, params::*, symmetric::*, verify::*};
 use rand_core::{CryptoRng, RngCore};
 
@@ -30,7 +29,7 @@ where
     if let Some(s) = _seed {
         sk[SK_START..].copy_from_slice(&s.1)
     } else {
-        randombytes(&mut sk[SK_START..], KYBER_SYMBYTES, _rng)?;
+        _rng.fill_bytes(&mut sk[SK_START..KYBER_SYMBYTES])
     }
     Ok(())
 }
@@ -61,7 +60,7 @@ where
     if let Some(s) = _seed {
         randbuf[..KYBER_SYMBYTES].copy_from_slice(&s);
     } else {
-        randombytes(&mut randbuf, KYBER_SYMBYTES, _rng)?;
+        _rng.fill_bytes(&mut randbuf[..KYBER_SYMBYTES]);
     }
 
     // Don't release system RNG output

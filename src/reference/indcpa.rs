@@ -1,5 +1,5 @@
-use crate::rng::randombytes;
-use crate::{params::*, poly::*, polyvec::*, symmetric::*, CryptoRng, KyberError, RngCore};
+use crate::{params::*, poly::*, polyvec::*, symmetric::*, KyberError};
+use rand_core::{CryptoRng, RngCore};
 
 /// Name:  pack_pk
 ///
@@ -186,7 +186,7 @@ where
     if let Some(s) = _seed {
         randbuf[..KYBER_SYMBYTES].copy_from_slice(&s.0);
     } else {
-        randombytes(&mut randbuf, KYBER_SYMBYTES, _rng)?;
+        _rng.fill_bytes(&mut randbuf[..KYBER_SYMBYTES]);
     }
 
     hash_g(&mut buf, &randbuf, KYBER_SYMBYTES);

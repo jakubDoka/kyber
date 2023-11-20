@@ -3,8 +3,8 @@ use crate::{
     kem::*,
     kex::{Decapsulated, Encapsulated, PublicKey, SecretKey},
     params::*,
-    CryptoRng, RngCore,
 };
+use rand_core::{CryptoRng, RngCore};
 
 /// Keypair generation with a provided RNG.
 ///
