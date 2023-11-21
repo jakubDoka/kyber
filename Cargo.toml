@@ -75,13 +75,3 @@ getrandom = ["rand_core/getrandom"]
 
 # For benchmarking
 benchmarking = ["criterion"]
-
-# Prevents leak sanitiser failing in tests
-[profile.test]
-opt-level = 2
-
-[profile.test.package."*"]
-opt-level = 0
-
-[profile.test.build-override]
-opt-level = 0
