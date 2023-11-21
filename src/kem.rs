@@ -29,7 +29,7 @@ where
     if let Some(s) = _seed {
         sk[SK_START..].copy_from_slice(&s.1)
     } else {
-        _rng.fill_bytes(&mut sk[SK_START..KYBER_SYMBYTES])
+        _rng.fill_bytes(&mut sk[SK_START..SK_START + KYBER_SYMBYTES])
     }
     Ok(())
 }
