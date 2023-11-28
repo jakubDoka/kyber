@@ -27,7 +27,7 @@ where
     hash_h(&mut sk[PK_START..], pk, KYBER_PUBLICKEYBYTES);
 
     if let Some(s) = _seed {
-        sk[SK_START..].copy_from_slice(&s.1)
+        sk[SK_START..].copy_from_slice(s.1)
     } else {
         _rng.fill_bytes(&mut sk[SK_START..SK_START + KYBER_SYMBYTES])
     }
@@ -58,7 +58,7 @@ where
 
     // Deterministic randbuf for KAT's
     if let Some(s) = _seed {
-        randbuf[..KYBER_SYMBYTES].copy_from_slice(&s);
+        randbuf[..KYBER_SYMBYTES].copy_from_slice(s);
     } else {
         _rng.fill_bytes(&mut randbuf[..KYBER_SYMBYTES]);
     }
@@ -91,7 +91,7 @@ where
 ///  - const [u8] sk: input private key (an already allocated array of CRYPTO_SECRETKEYBYTES bytes)
 ///
 /// On failure, ss will contain a pseudo-random value.
-pub fn crypto_kem_dec(ss: &mut [u8], ct: &[u8], sk: &[u8]) -> () {
+pub fn crypto_kem_dec(ss: &mut [u8], ct: &[u8], sk: &[u8]) {
     let mut buf = [0u8; 2 * KYBER_SYMBYTES];
     let mut kr = [0u8; 2 * KYBER_SYMBYTES];
     let mut cmp = [0u8; KYBER_CIPHERTEXTBYTES];

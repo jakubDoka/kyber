@@ -93,7 +93,7 @@ fn rej_uniform(r: &mut [i16], len: usize, buf: &[u8], buflen: usize) -> usize {
     let (mut val0, mut val1);
 
     while ctr < len && pos + 3 <= buflen {
-        val0 = ((buf[pos + 0] >> 0) as u16 | (buf[pos + 1] as u16) << 8) & 0xFFF;
+        val0 = (buf[pos] as u16 | (buf[pos + 1] as u16) << 8) & 0xFFF;
         val1 = ((buf[pos + 1] >> 4) as u16 | (buf[pos + 2] as u16) << 4) & 0xFFF;
         pos += 3;
 
@@ -184,7 +184,7 @@ where
     let mut randbuf = [0u8; 2 * KYBER_SYMBYTES];
 
     if let Some(s) = _seed {
-        randbuf[..KYBER_SYMBYTES].copy_from_slice(&s.0);
+        randbuf[..KYBER_SYMBYTES].copy_from_slice(s.0);
     } else {
         _rng.fill_bytes(&mut randbuf[..KYBER_SYMBYTES]);
     }

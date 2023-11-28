@@ -120,7 +120,7 @@
 //! * **Decapsulation** - The ciphertext was unable to be authenticated. The shared secret was not decapsulated  
 
 #![cfg_attr(not(feature = "std"), no_std)]
-#![allow(clippy::many_single_char_names)]
+#![allow(clippy::all)]
 
 // Prevent usage of mutually exclusive features
 #[cfg(all(feature = "kyber1024", feature = "kyber512"))]

@@ -35,7 +35,7 @@ pub fn polyvec_compress(r: &mut [u8], a: Polyvec) {
                     t[k] = (((((t[k] as u32) << 11) + KYBER_Q as u32 / 2) / KYBER_Q as u32) & 0x7ff)
                         as u16;
                 }
-                r[idx + 0] = (t[0] >> 0) as u8;
+                r[idx] = t[0] as u8;
                 r[idx + 1] = ((t[0] >> 8) | (t[1] << 3)) as u8;
                 r[idx + 2] = ((t[1] >> 5) | (t[2] << 6)) as u8;
                 r[idx + 3] = (t[2] >> 2) as u8;
@@ -88,7 +88,7 @@ pub fn polyvec_decompress(r: &mut Polyvec, a: &[u8]) {
         let mut idx = 0usize;
         for i in 0..KYBER_K {
             for j in 0..KYBER_N / 8 {
-                t[0] = (a[idx + 0] >> 0) as u16 | (a[idx + 1] as u16) << 8;
+                t[0] = a[idx] as u16 | (a[idx + 1] as u16) << 8;
                 t[1] = (a[idx + 1] >> 3) as u16 | (a[idx + 2] as u16) << 5;
                 t[2] =
                     (a[idx + 2] >> 6) as u16 | (a[idx + 3] as u16) << 2 | (a[idx + 4] as u16) << 10;

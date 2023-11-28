@@ -81,7 +81,7 @@ pub fn poly_decompress(r: &mut Poly, a: &[u8]) {
         128 => {
             let mut idx = 0usize;
             for i in 0..KYBER_N / 2 {
-                r.coeffs[2 * i + 0] = ((((a[idx] & 15) as usize * KYBER_Q) + 8) >> 4) as i16;
+                r.coeffs[2 * i] = ((((a[idx] & 15) as usize * KYBER_Q) + 8) >> 4) as i16;
                 r.coeffs[2 * i + 1] = ((((a[idx] >> 4) as usize * KYBER_Q) + 8) >> 4) as i16;
                 idx += 1;
             }
@@ -90,8 +90,8 @@ pub fn poly_decompress(r: &mut Poly, a: &[u8]) {
             let mut idx = 0usize;
             let mut t = [0u8; 8];
             for i in 0..KYBER_N / 8 {
-                t[0] = a[idx + 0];
-                t[1] = (a[idx + 0] >> 5) | (a[idx + 1] << 3);
+                t[0] = a[idx];
+                t[1] = (a[idx] >> 5) | (a[idx + 1] << 3);
                 t[2] = a[idx + 1] >> 2;
                 t[3] = (a[idx + 1] >> 7) | (a[idx + 2] << 1);
                 t[4] = (a[idx + 2] >> 4) | (a[idx + 3] << 4);
@@ -124,7 +124,7 @@ pub fn poly_tobytes(r: &mut [u8], a: Poly) {
         t0 += (t0 >> 15) & KYBER_Q as i16;
         t1 = a.coeffs[2 * i + 1];
         t1 += (t1 >> 15) & KYBER_Q as i16;
-        r[3 * i + 0] = (t0 >> 0) as u8;
+        r[3 * i] = t0 as u8;
         r[3 * i + 1] = ((t0 >> 8) | (t1 << 4)) as u8;
         r[3 * i + 2] = (t1 >> 4) as u8;
     }
@@ -139,8 +139,8 @@ pub fn poly_tobytes(r: &mut [u8], a: Poly) {
 ///  - const [u8] a: input byte array (of KYBER_POLYBYTES bytes)
 pub fn poly_frombytes(r: &mut Poly, a: &[u8]) {
     for i in 0..(KYBER_N / 2) {
-        r.coeffs[2 * i + 0] =
-            ((a[3 * i + 0] >> 0) as u16 | ((a[3 * i + 1] as u16) << 8) & 0xFFF) as i16;
+        r.coeffs[2 * i] =
+            (a[3 * i] as u16 | ((a[3 * i + 1] as u16) << 8) & 0xFFF) as i16;
         r.coeffs[2 * i + 1] =
             ((a[3 * i + 1] >> 4) as u16 | ((a[3 * i + 2] as u16) << 4) & 0xFFF) as i16;
     }

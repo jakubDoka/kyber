@@ -1,12 +1,9 @@
 use rand_core::{CryptoRng, Error, RngCore};
 
+#[derive(Default)]
 pub struct FailingRng(u64);
 
-impl Default for FailingRng {
-    fn default() -> Self {
-        Self(0)
-    }
-}
+
 
 impl RngCore for FailingRng {
     fn next_u32(&mut self) -> u32 {
